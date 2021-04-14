@@ -1,16 +1,21 @@
-import React, { Component } from 'react'
+import React, { useEffect , useContext } from 'react'
 import Navbar from '../layouts/Navbar'
+import Spinner from "../layouts/Spinner"
 import Userhead from '../layouts/Userhead'
 import HeadButtons from '../layouts/HeadButtons'
 import Repos from '../repos/Repos'
+import githubContext from "../../context/github/githubContext"
 
-class Singleeuser extends Component {
+const Singleeuser = ({match}) => {
 
-componentDidMount(){
-    this.props.getUser(this.props.match.params.login)
-    this.props.getUserRepos(this.props.match.params.login)
-} 
-    render() {
+const GithubContext = useContext(githubContext)
+
+useEffect(()=>{
+    GithubContext.getUser(match.params.login)
+    GithubContext.getUserRepos(match.params.login)
+    //eslint-disable-next-line
+},[]);
+    
         const {
             login,
             avatar_url,
@@ -23,40 +28,48 @@ componentDidMount(){
             public_repos,
             public_gists,
             hireable,
-            company,
+            company
             
-        } = this.props.user;
-        const {repos} = this.props
-    return (
-        <>
-            <Navbar/>
-            <div className="container">
-                <HeadButtons
-                public_repos = {public_repos}
-                public_gists = {public_gists}
-                followers = {followers}
-                following = {following}
-                hireable = {hireable}
-                />
-            <Userhead
-                login = {login}
-                avatar_url = {avatar_url}
-                location = {location}
-                bio={bio}
-                name = {name}
-                html_url ={html_url}
-                company = {company}
-            />
-                
-            <div className="card3">
-            <h2>Public Repos :</h2>
+        } = GithubContext.user;
 
-                <Repos repos={repos}/>  
-            </div>
-            </div>
-        </>
-    )
-  }
+        if (GithubContext.loading){
+            return (
+                <>
+            <Navbar/>
+            <Spinner/>
+            </>)
+          }
+          else{ 
+            return (
+                <>
+                    <Navbar/>
+                    <div className="container">
+                        <HeadButtons
+                        public_repos = {public_repos}
+                        public_gists = {public_gists}
+                        followers = {followers}
+                        following = {following}
+                        hireable = {hireable}
+                        />
+                    <Userhead
+                        login = {login}
+                        avatar_url = {avatar_url}
+                        location = {location}
+                        bio={bio}
+                        name = {name}
+                        html_url ={html_url}
+                        company = {company}
+                    />
+                        
+                    <div className="card3">
+                    <h2>Public Repos :</h2>
+
+                        <Repos repos={GithubContext.repos}/>  
+                    </div>
+                    </div>
+                </>
+            )
+        }
 }
 
 export default Singleeuser

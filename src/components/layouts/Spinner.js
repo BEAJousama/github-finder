@@ -1,11 +1,15 @@
 import React from 'react'
 import spinner from "./spinner.gif"
 
-const Spinner = ()=>
-      
-      <>
-        <img src={spinner} alt="spinner" className="center" style={{width : "200px", margin:"auto",display:"auto" }}/>
-      </>
+const Spinner = ()=> {
+
+  return (
+    <div className="container text-center">
+            <img src={spinner} alt="spinner"  style={{width : "200px", margin:"auto",display:"auto" }}/>
+          </div>
+         ) 
+}
+
     
 
 export default Spinner

@@ -2,12 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 
-const Useritem = ({user}) => {
-   
-  
-
+const Useritem = ({user}) => {  
         const {login,avatar_url} = user;
-
         return (
             <div className="card1 text-center">
                 <img 
@@ -19,10 +15,8 @@ const Useritem = ({user}) => {
                 <h3>{login}</h3>
                 <div>
                     <Link to ={`/users/${login}`} className="btn btn-dark btn-sm my-1">More</Link>
-                </div>
-                
+                </div>            
             </div>
-        )
-    
+        )   
 }
 export default Useritem;
